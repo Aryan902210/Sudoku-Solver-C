@@ -53,6 +53,45 @@ int is_valid(int board[SIZE][SIZE], int row, int col, int num) {
     return 1; // It is valid
 }
 
+//The main backtracking solver function
+int solve_sudoku(int board[SIZE][SIZE]) {
+    int row, col;
+    int found_empty = 0;
+
+    // Find the next empty cell (represented by 0)
+    for (row = 0; row < SIZE; row++) {
+        for (col = 0; col < SIZE; col++) {
+            if (board[row][col] == 0) {
+                found_empty = 1;
+                break; // Exit col loop
+            }
+        }
+        if (found_empty) {
+            break; // Exit row loop
+        }
+    }
+
+    // Base case: If no empty space is found, the puzzle is solved
+    if (!found_empty) {
+        return 1; 
+    }
+
+    // Try numbers 1 through 9
+    for (int num = 1; num <= 9; num++) {
+        if (is_valid(board, row, col, num)) {
+            board[row][col] = num;
+
+            if (solve_sudoku(board)) { 
+                return 1; // Solution found
+            }
+            
+            // Backtrack: if the solution path failed, reset the cell
+            board[row][col] = 0;
+        }
+    }
+
+    return 0; // No solution exists from this point
+}
 
 // --- Main function for example usage ---
 int main() {
@@ -70,4 +109,16 @@ int main() {
 
     printf("Initial board:\n");
     print_board(board);
+    printf("\nSolving...\n\n");
+
+    if (solve_sudoku(board)) {
+        printf("Solved board:\n");
+        print_board(board);
+    } 
+    else {
+        printf("No solution exists for this board.\n");
+    }
+
+    return 0;
 }
+
