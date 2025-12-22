@@ -21,6 +21,39 @@ void print_board(int board[SIZE][SIZE]) {
     }
 }
 
+// Validates whether a number can be placed at a given position
+// without violating Sudoku constraints
+int is_valid(int board[SIZE][SIZE], int row, int col, int num) {
+    // Enforce Sudoku row-uniqueness constraint
+    for (int d = 0; d < SIZE; d++) {
+        if (board[row][d] == num) {
+            return 0; // Not valid
+        }
+    }
+
+    // Enforce Sudoku column-uniqueness constraint
+    for (int d = 0; d < SIZE; d++) {
+        if (board[d][col] == num) {
+            return 0; // Not valid
+        }
+    }
+
+    // Enforce 3x3 subgrid constraint
+    int box_start_row = row - row % 3;
+    int box_start_col = col - col % 3;
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (board[i + box_start_row][j + box_start_col] == num) {
+                return 0; // Not valid
+            }
+        }
+    }
+
+    return 1; // It is valid
+}
+
+
 // --- Main function for example usage ---
 int main() {
     int board[SIZE][SIZE] = {
