@@ -27,12 +27,12 @@ This project highlights:
 
 
 ## FILE STRUCTURE
-
+```
 SudokuSolver/
 │
 ├─ sudoku_solver.c      # Main source code
 ├─ README.md           # Project documentation
-
+```
 
 ## HOW IT WORKS
 
